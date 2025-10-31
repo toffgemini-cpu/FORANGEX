@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>FORANGEX Exchange (Demo)</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 16px; background:#f7f7f8; }
+    .container { max-width: 980px; margin: auto; }
+    .box { border: 1px solid #eee; padding: 12px; margin-bottom: 12px; border-radius: 6px; background:#fff; }
+    .chat { height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 8px; background: #fafafa; }
+    .message { margin: 6px 0; }
+    .me { color: #0b5; }
+    .them { color: #06f; }
+    label { display:block; margin-top:8px; }
+    #qrImage { max-width: 240px; display:block; margin-top:8px; }
+    .grid { display:grid; grid-template-columns: repeat(4, 1fr); gap:8px; align-items:center; }
+    .inline { display:flex; gap:8px; align-items:center; }
+    .widget { display:flex; gap:12px; }
+    .card { border:1px solid #eee; padding:8px; border-radius:6px; min-width:200px; background:#fff; }
+    .small { font-size:13px; color:#666; }
+    button { cursor:pointer; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>FORANGEX — Demo</h2>
+
+    <div class="box widget" id="liveWidget">
+      <!-- live price cards injected by app.js -->
+    </div>
+
+    <div class="box">
+      <strong>Create Order</strong>
+      <form id="orderForm">
+        <label>WhatsApp number (E.164): <input type="text" id="whatsappNumber" placeholder="+23480..." required></label>
+        <label>Name: <input type="text" id="name" placeholder="Your name"></label>
+        <label>Crypto:
+          <select id="cryptoSelect">
+            <option value="btc">BTC</option>
+            <option value="eth">ETH</option>
+            <option value="usdt">USDT</option>
+          </select>
+        </label>
+
+        <label>Type:
+          <select id="type">
+            <option value="sell">Sell crypto (you send crypto, receive NGN)</option>
+            <option value="buy">Buy crypto (you pay NGN, receive crypto)</option>
+          </select>
+        </label>
+
+        <div class="inline">
+          <label style="flex:1">Crypto amount: <input type="number" step="any" id="cryptoAmount" placeholder="e.g. 0.01"></label>
+          <label style="flex:1">Fiat (NGN): <input type="number" step="any" id="fiatAmount" placeholder="e.g. 100000"></label>
+        </div>
+
+        <div class="small" id="computedNote">Enter amount in either field — the other will auto-populate using platform price (10% margin).</div>
+
+        <div style="margin-top:8px;">
+          <button type="submit">Create order & send WhatsApp confirmation</button>
+        </div>
+      </form>
+      <div id="orderResult" class="small" style="margin-top:8px;"></div>
+    </div>
+
+    <div class="box">
+      <strong>Chat (web ↔ WhatsApp)</strong>
+      <p>Enter the WhatsApp number above and click "Connect" to link the session.</p>
+      <button id="connectBtn">Connect session</button>
+      <div id="qrContainer">
+        <img id="qrImage" style="display:none" alt="Scan QR to login WhatsApp">
+      </div>
+      <div class="chat" id="chatArea"></div>
+      <form id="chatForm">
+        <input type="text" id="chatInput" placeholder="Type a message..." style="width:80%">
+        <button type="submit">Send</button>
+      </form>
+    </div>
+
+    <div class="small">Admin dashboard: <a href="/admin.html">/admin.html</a></div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
